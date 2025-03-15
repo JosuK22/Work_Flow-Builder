@@ -1,0 +1,54 @@
+.sidebar {
+    width: 100%;
+    padding: 2rem;
+    background: #242424;
+    border: 1px solid #ddd;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+  }
+  
+  h3 {
+    font-size: 16px;
+    margin-bottom: 4rem;
+    color: white;
+  }
+  
+  .nodeItem {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 8px;
+    background: #007bff;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    cursor: grab;
+  }
+  
+  .nodeItem:active {
+    cursor: grabbing;
+    background: #0056b3;
+  }
+  
+  .loadItems{
+    margin-top: 10rem;
+    width: 100%;
+    padding: 10px;
+    color: rgb(170, 68, 21);
+    text-align: center;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+  }
+  .saveItems{
+    margin-top: 2rem;
+    width: 100%;
+    padding: 10px;
+    color: rgb(21, 170, 29);
+    text-align: center;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+  }

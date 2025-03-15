@@ -1,0 +1,24 @@
+.edgeStyle {
+    stroke: #555;
+    stroke-width: 2;
+  }
+  
+  .edgeLabel {
+    position: absolute;
+    z-index: 10;
+  }
+  
+  .edgeDeleteButton {
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .edgeDeleteButton:hover {
+    background: darkred;
+  }
+  

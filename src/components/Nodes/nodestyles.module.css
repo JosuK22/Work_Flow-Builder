@@ -1,0 +1,99 @@
+/* General Styles for Nodes */
+.processNode {
+    background-color: #c9def8;
+    padding: 10px;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgb(26, 24, 189);
+  }
+  
+  .decisionNode {
+    background-color: #fffebd;
+    border: 2px solid yellow;
+    padding: 10px;
+    width: 150px;
+    text-align: center;
+    color: rgb(0, 0, 0);
+  }
+  .nodeInput{
+    width: 150px;
+  }
+  
+  .startNode {
+    background-color: #dcfdc9;
+    border-radius: 8px;
+    color: #28a745;
+    border: 2px solid #28a745;
+    padding: 10px;
+    width: 150px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .startNodeLabel {    
+    font-weight: bold;
+  }
+  
+  .stopNode {
+    background-color: #ffcaca;
+    border-radius: 8px;
+    color: #e92121;
+    border: 2px solid #e92121;
+    padding: 10px;
+    width: 150px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  .stopNodeLabel {
+    font-weight: bold;
+  }
+  
+  /* For input fields */
+  .text-input {
+    width: 100%;
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .processNodeLabel {
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .decisionNodeLabel {
+    font-size: 14px;
+    color: #721c24;
+    font-weight: bold;
+  }
+  
+  .nodeDeleteButton {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+  
+  .processNode:hover .nodeDeleteButton,
+  .startNode:hover .nodeDeleteButton,
+  .stopNode:hover .nodeDeleteButton {
+    opacity: 1;
+  }
+  
