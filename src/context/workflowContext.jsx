@@ -3,25 +3,33 @@ import { applyNodeChanges, applyEdgeChanges, addEdge } from '@xyflow/react';
 
 const WorkflowContext = createContext();
 
+// Custom hook to use the Workflow context
 export const useWorkflow = () => {
   return useContext(WorkflowContext);
 };
 
+// Provider component to wrap around the app and provide workflow state
 export const WorkflowProvider = ({ children }) => {
-  const [nodes, setNodes] = useState([]);
-  const [edges, setEdges] = useState([]);
-  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
-  const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
-  const [workflowName, setWorkflowName] = useState("");
-  const [workflowList, setWorkflowList] = useState([]);
-  const [currentWorkflowIndex, setCurrentWorkflowIndex] = useState(null); // Track index of the loaded workflow
+  const [nodes, setNodes] = useState([]); 
+  const [edges, setEdges] = useState([]); 
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false); 
+  const [isLoadModalOpen, setIsLoadModalOpen] = useState(false); 
+  const [workflowName, setWorkflowName] = useState(""); 
+  const [workflowList, setWorkflowList] = useState([]); 
+  const [currentWorkflowIndex, setCurrentWorkflowIndex] = useState(null); 
 
+  // Load saved workflows from localStorage
   const loadWorkflow = () => {
     const savedWorkflows = JSON.parse(localStorage.getItem("workflows")) || [];
-    setWorkflowList(savedWorkflows);
+    if (!Array.isArray(savedWorkflows)) {
+      setWorkflowList([]); 
+    } else {
+      setWorkflowList(savedWorkflows);
+    }
     setIsLoadModalOpen(true);
   };
 
+  // Save current workflow to localStorage
   const saveWorkflow = () => {
     if (!workflowName.trim()) {
       alert("Please enter a workflow name.");
@@ -31,31 +39,30 @@ export const WorkflowProvider = ({ children }) => {
     let savedWorkflows = JSON.parse(localStorage.getItem("workflows")) || [];
     const timestamp = new Date().toLocaleString();
     
+    // Remove existing workflow if editing, else add new workflow
     if (currentWorkflowIndex !== null) {
-      // Remove the loaded workflow and add the updated one at the end
       savedWorkflows.splice(currentWorkflowIndex, 1);
     } else if (savedWorkflows.length >= 5) {
-      // If new workflow, remove the oldest item
       savedWorkflows.shift();
     }
 
-    // Add the updated or new workflow at the last position
     savedWorkflows.push({ name: workflowName, timestamp, nodes, edges });
-
     localStorage.setItem("workflows", JSON.stringify(savedWorkflows));
-    setCurrentWorkflowIndex(savedWorkflows.length - 1); // Update index to last item
+    setCurrentWorkflowIndex(savedWorkflows.length - 1); 
     setIsSaveModalOpen(false);
     alert("Workflow saved successfully!");
   };
 
+  // Load a selected workflow into state
   const handleLoadWorkflow = (workflow, index) => {
     setNodes(workflow.nodes);
     setEdges(workflow.edges);
     setWorkflowName(workflow.name);
-    setCurrentWorkflowIndex(index); // Track which workflow is loaded
+    setCurrentWorkflowIndex(index); 
     setIsLoadModalOpen(false);
   };
 
+  // Workflow state changes handlers
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     []
@@ -71,6 +78,7 @@ export const WorkflowProvider = ({ children }) => {
     []
   );
 
+  // Memoized context value to avoid unnecessary re-renders
   const value = useMemo(() => ({
     nodes,
     edges,

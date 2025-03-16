@@ -5,7 +5,7 @@ function CustomEdge({ id, sourceX, sourceY, targetX, targetY, markerEnd, setEdge
   const [edgePath, labelX, labelY] = getBezierPath({ sourceX, sourceY, targetX, targetY });
 
   const handleDelete = (event) => {
-    event.stopPropagation(); // Prevents triggering unwanted interactions
+    event.stopPropagation(); 
     setEdges((edges) => edges.filter((edge) => edge.id !== id));
   };
 

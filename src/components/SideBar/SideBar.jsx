@@ -44,7 +44,7 @@ const Sidebar = () => {
 
       {showSave && (
         <div className={styles.saveItems} onClick={() => {
-          setWorkflowName(workflowName || ""); // Pre-fill if editing
+          setWorkflowName(workflowName || ""); 
           setIsSaveModalOpen(true);
         }}>
           Save Workflow
