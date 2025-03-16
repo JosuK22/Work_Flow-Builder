@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useCallback, useMemo } from 'react';
-import { applyNodeChanges, applyEdgeChanges, addEdge } from '@xyflow/react'; // Import missing functions
+import { applyNodeChanges, applyEdgeChanges, addEdge } from '@xyflow/react';
 
 const WorkflowContext = createContext();
 
@@ -10,57 +10,66 @@ export const useWorkflow = () => {
 export const WorkflowProvider = ({ children }) => {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+  const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
+  const [workflowName, setWorkflowName] = useState("");
+  const [workflowList, setWorkflowList] = useState([]);
+  const [currentWorkflowIndex, setCurrentWorkflowIndex] = useState(null); // Track index of the loaded workflow
 
   const loadWorkflow = () => {
-    const savedNodes = JSON.parse(localStorage.getItem("workflowNodes")) || [];
-    const savedEdges = JSON.parse(localStorage.getItem("workflowEdges")) || [];
-    setNodes(savedNodes);
-    setEdges(savedEdges);
+    const savedWorkflows = JSON.parse(localStorage.getItem("workflows")) || [];
+    setWorkflowList(savedWorkflows);
+    setIsLoadModalOpen(true);
   };
 
   const saveWorkflow = () => {
-    localStorage.setItem("workflowNodes", JSON.stringify(nodes));
-    localStorage.setItem("workflowEdges", JSON.stringify(edges));
+    if (!workflowName.trim()) {
+      alert("Please enter a workflow name.");
+      return;
+    }
+
+    let savedWorkflows = JSON.parse(localStorage.getItem("workflows")) || [];
+    const timestamp = new Date().toLocaleString();
+    
+    if (currentWorkflowIndex !== null) {
+      // Remove the loaded workflow and add the updated one at the end
+      savedWorkflows.splice(currentWorkflowIndex, 1);
+    } else if (savedWorkflows.length >= 5) {
+      // If new workflow, remove the oldest item
+      savedWorkflows.shift();
+    }
+
+    // Add the updated or new workflow at the last position
+    savedWorkflows.push({ name: workflowName, timestamp, nodes, edges });
+
+    localStorage.setItem("workflows", JSON.stringify(savedWorkflows));
+    setCurrentWorkflowIndex(savedWorkflows.length - 1); // Update index to last item
+    setIsSaveModalOpen(false);
     alert("Workflow saved successfully!");
   };
 
+  const handleLoadWorkflow = (workflow, index) => {
+    setNodes(workflow.nodes);
+    setEdges(workflow.edges);
+    setWorkflowName(workflow.name);
+    setCurrentWorkflowIndex(index); // Track which workflow is loaded
+    setIsLoadModalOpen(false);
+  };
+
   const onNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)), // This uses applyNodeChanges
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     []
   );
 
   const onEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)), // This uses applyEdgeChanges
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     []
   );
 
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge({ ...params, type: 'customEdge' }, eds)), // This uses addEdge
+    (params) => setEdges((eds) => addEdge({ ...params, type: 'customEdge' }, eds)),
     []
   );
-
-  const onDragOver = useCallback((event) => {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
-  }, []);
-
-  const onDrop = useCallback((event) => {
-    event.preventDefault();
-    const nodeType = event.dataTransfer.getData('application/reactflow');
-
-    if (!nodeType) return;
-
-    const position = { x: event.clientX - 250, y: event.clientY - 50 }; // Adjust drop position
-
-    const newNode = {
-      id: `${nodes.length + 1}`,
-      type: nodeType,
-      position,
-      data: { label: nodeType.charAt(0).toUpperCase() + nodeType.slice(1) },
-    };
-
-    setNodes((nds) => [...nds, newNode]);
-  }, [nodes]);
 
   const value = useMemo(() => ({
     nodes,
@@ -72,9 +81,15 @@ export const WorkflowProvider = ({ children }) => {
     onNodesChange,
     onEdgesChange,
     onConnect,
-    onDragOver,
-    onDrop,
-  }), [nodes, edges, onNodesChange, onEdgesChange, onConnect, onDragOver, onDrop]);
+    isSaveModalOpen,
+    setIsSaveModalOpen,
+    isLoadModalOpen,
+    setIsLoadModalOpen,
+    workflowName,
+    setWorkflowName,
+    workflowList,
+    handleLoadWorkflow,
+  }), [nodes, edges, isSaveModalOpen, isLoadModalOpen, workflowName, workflowList]);
 
   return (
     <WorkflowContext.Provider value={value}>
@@ -82,4 +97,3 @@ export const WorkflowProvider = ({ children }) => {
     </WorkflowContext.Provider>
   );
 };
-

@@ -52,3 +52,116 @@
     background-color: rgb(255, 255, 255);
     cursor: pointer;
   }
+
+  /* Modal Container */
+.saveModal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 20px;
+  width: 400px;
+  
+}
+
+/* Title */
+.modalTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Input Field */
+.workflowName {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.workflowName:focus {
+  border-color: #007bff;
+}
+
+/* Buttons Container */
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Buttons */
+.button {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.button:first-child {
+  background: #007bff;
+  color: white;
+}
+
+.button:first-child:hover {
+  background: #0056b3;
+}
+
+.button:last-child {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.button:last-child:hover {
+  background: #bdbdbd;
+}
+
+.button:active {
+  transform: scale(0.95);
+}
+
+/* Load Workflow List */
+.workflowList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 230px;
+  overflow-y: auto;
+  padding: 10px;
+  width: 400px;
+  margin-bottom: 1rem;
+}
+
+.workflowItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  padding: .5rem;
+  background: #f9f9f9;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.workflowItem:hover {
+  background: #e0e0e0;
+}
+
+/* Scrollbar Styling */
+.workflowList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.workflowList::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
