@@ -14,8 +14,8 @@ This is a **React + Vite** workflow application that allows users to create, edi
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/your-username/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/JosuK22/Work_Flow-Builder.git
+   cd Work_Flow-Builder
    ```
 
 2. **Install dependencies:**
